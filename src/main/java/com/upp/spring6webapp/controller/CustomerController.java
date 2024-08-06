@@ -40,4 +40,11 @@ public class CustomerController {
 
         return new ResponseEntity<>(savedCustomer, httpHeaders, HttpStatus.CREATED);
     }
+
+    @PutMapping("{customerId}")
+    public ResponseEntity<Customer> updateById(@PathVariable("customerId") UUID customerId, @RequestBody Customer customer) {
+        Customer updatedCustomer = customerService.updateCustomerById(customerId, customer);
+
+        return updatedCustomer == null ? new ResponseEntity<>(updatedCustomer, HttpStatus.NO_CONTENT) : new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
+    }
 }
