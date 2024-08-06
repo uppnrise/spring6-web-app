@@ -3,6 +3,7 @@ package com.upp.spring6webapp.service.impl;
 import com.upp.spring6webapp.model.Customer;
 import com.upp.spring6webapp.service.CustomerService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -83,5 +84,17 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer deleteCustomerById(UUID customerId) {
         return customerMap.remove(customerId);
+    }
+
+    @Override
+    public void patchCustomerById(UUID customerId, Customer customer) {
+        Customer existingCustomer = customerMap.get(customerId);
+
+        if (existingCustomer != null) {
+            if (StringUtils.hasText(customer.getName())) {
+                existingCustomer.setName(customer.getName());
+            }
+            existingCustomer.setUpdatedDate(LocalDateTime.now());
+        }
     }
 }
