@@ -1,6 +1,5 @@
 package com.upp.spring6webapp.controller;
 
-import com.upp.spring6webapp.model.Beer;
 import com.upp.spring6webapp.model.Customer;
 import com.upp.spring6webapp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
