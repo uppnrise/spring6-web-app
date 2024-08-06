@@ -54,4 +54,11 @@ public class BeerController {
         return updatedBeer == null ? new ResponseEntity<>(updatedBeer, HttpStatus.NO_CONTENT) :new ResponseEntity<>(updatedBeer, HttpStatus.OK);
 
     }
+
+    @DeleteMapping("{beerId}")
+    public ResponseEntity<Beer> deleteById(@PathVariable("beerId") UUID beerId){
+        beerService.deleteBeerById(beerId);
+
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    }
 }
