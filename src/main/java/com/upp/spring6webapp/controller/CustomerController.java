@@ -1,5 +1,6 @@
 package com.upp.spring6webapp.controller;
 
+import com.upp.spring6webapp.model.Beer;
 import com.upp.spring6webapp.model.Customer;
 import com.upp.spring6webapp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,12 @@ public class CustomerController {
         Customer updatedCustomer = customerService.updateCustomerById(customerId, customer);
 
         return updatedCustomer == null ? new ResponseEntity<>(updatedCustomer, HttpStatus.NO_CONTENT) : new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{customerId}")
+    public ResponseEntity<Customer> deleteById(@PathVariable("customerId") UUID customerId) {
+        customerService.deleteCustomerById(customerId);
+
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 }

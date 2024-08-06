@@ -79,4 +79,9 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return fetchedCustomer;
     }
+
+    @Override
+    public Customer deleteCustomerById(UUID customerId) {
+        return customerMap.remove(customerId);
+    }
 }
