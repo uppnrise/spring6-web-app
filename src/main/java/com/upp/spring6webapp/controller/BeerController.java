@@ -12,23 +12,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-import static com.upp.spring6webapp.controller.BeerController.API_V1_BEER_PATH;
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(API_V1_BEER_PATH)
 public class BeerController {
     public static final String API_V1_BEER_PATH = "/api/v1/beer";
+    public static final String API_V1_BEER_PATH_ID = API_V1_BEER_PATH + "/{beerId}";
 
     private final BeerService beerService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping(API_V1_BEER_PATH)
     public List<Beer> listBeers() {
         return beerService.listBeers();
     }
 
-    @RequestMapping(value = "{beerId}", method = RequestMethod.GET)
+    @GetMapping(API_V1_BEER_PATH_ID)
     public Beer getBeerById(@PathVariable("beerId") UUID beerId) {
 
         log.debug("Get Beer by Id - in controller");
@@ -36,7 +34,7 @@ public class BeerController {
         return beerService.getBeerById(beerId);
     }
 
-    @PostMapping
+    @PostMapping(API_V1_BEER_PATH)
     public ResponseEntity<Beer> createBeer(@RequestBody Beer beer) {
         Beer saved = beerService.saveNewBeer(beer);
 
@@ -46,23 +44,22 @@ public class BeerController {
         return new ResponseEntity<>(saved, httpHeaders, HttpStatus.CREATED);
     }
 
-    @PutMapping("{beerId}")
+    @PutMapping(API_V1_BEER_PATH_ID)
     public ResponseEntity<Beer> updateById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer) {
 
-        Beer updatedBeer = beerService.updateBeerById(beerId, beer);
+        beerService.updateBeerById(beerId, beer);
 
-        return updatedBeer == null ? new ResponseEntity<>(updatedBeer, HttpStatus.NO_CONTENT) : new ResponseEntity<>(updatedBeer, HttpStatus.OK);
-
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("{beerId}")
+    @DeleteMapping(API_V1_BEER_PATH_ID)
     public ResponseEntity<Beer> deleteById(@PathVariable("beerId") UUID beerId) {
         beerService.deleteBeerById(beerId);
 
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping("{beerId}")
+    @PatchMapping(API_V1_BEER_PATH_ID)
     public ResponseEntity<Beer> patchById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer) {
         beerService.patchBeerById(beerId, beer);
 

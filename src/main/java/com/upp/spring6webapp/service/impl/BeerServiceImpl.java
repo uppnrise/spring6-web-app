@@ -93,7 +93,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public Beer updateBeerById(UUID beerId, Beer beer) {
+    public void updateBeerById(UUID beerId, Beer beer) {
         Beer fetchedBeer = beerMap.get(beerId);
 
         if (fetchedBeer != null) {
@@ -103,7 +103,6 @@ public class BeerServiceImpl implements BeerService {
             fetchedBeer.setQuantityOnHand(beer.getQuantityOnHand());
             fetchedBeer.setUpdateDate(LocalDateTime.now());
         }
-        return fetchedBeer;
     }
 
     @Override
