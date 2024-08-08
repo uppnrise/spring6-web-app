@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static com.upp.spring6webapp.controller.BeerController.API_V1_BEER_PATH;
+import static com.upp.spring6webapp.controller.BeerController.API_V1_BEER_PATH_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -68,7 +69,7 @@ class BeerControllerTest {
 
         given(beerService.getBeerById(ArgumentMatchers.any(UUID.class))).willReturn(testBeer);
 
-        mockMvc.perform(get(API_V1_BEER_PATH + "/" + UUID.randomUUID()).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get(API_V1_BEER_PATH_ID, UUID.randomUUID()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(testBeer.getId().toString())))
@@ -95,7 +96,7 @@ class BeerControllerTest {
     void testUpdateBeer() throws Exception {
         Beer beer = beerServiceImpl.listBeers().get(0);
 
-        mockMvc.perform(put(API_V1_BEER_PATH + "/" + beer.getId())
+        mockMvc.perform(put(API_V1_BEER_PATH_ID, beer.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beer)))
@@ -108,7 +109,7 @@ class BeerControllerTest {
     void testDeleteBeer() throws Exception {
         Beer beer = beerServiceImpl.listBeers().get(0);
 
-        mockMvc.perform(delete(API_V1_BEER_PATH + "/" +  beer.getId())
+        mockMvc.perform(delete(API_V1_BEER_PATH_ID, beer.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
@@ -128,7 +129,7 @@ class BeerControllerTest {
         HashMap<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName", "NewName");
 
-        mockMvc.perform(patch(API_V1_BEER_PATH +  "/" + beer.getId())
+        mockMvc.perform(patch(API_V1_BEER_PATH_ID, beer.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beerMap)))
