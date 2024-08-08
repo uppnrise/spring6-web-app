@@ -22,11 +22,6 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity handleNotFoundException() {
-        return ResponseEntity.notFound().build();
-    }
-
     @GetMapping(API_V1_CUSTOMER_PATH)
     public List<Customer> listAllCustomers() {
         return customerService.getAllCustomers();

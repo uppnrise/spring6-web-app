@@ -21,11 +21,6 @@ public class BeerController {
 
     private final BeerService beerService;
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity handleNotFoundException() {
-        return ResponseEntity.notFound().build();
-    }
-
     @GetMapping(API_V1_BEER_PATH)
     public List<Beer> listBeers() {
         return beerService.listBeers();
