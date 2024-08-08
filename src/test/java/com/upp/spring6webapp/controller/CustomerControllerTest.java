@@ -7,12 +7,14 @@ import com.upp.spring6webapp.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,6 +36,12 @@ public class CustomerControllerTest {
 
     @MockBean
     private CustomerService customerService;
+
+    @Captor
+    ArgumentCaptor<Customer> customerCaptor;
+
+    @Captor
+    ArgumentCaptor<UUID> uuidArgumentCaptor;
 
     private CustomerServiceImpl customerServiceImpl;
 
@@ -100,11 +108,30 @@ public class CustomerControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(customerService).deleteCustomerById(any(UUID.class));
-
-        ArgumentCaptor<UUID> uuidArgumentCaptor = ArgumentCaptor.forClass(UUID.class);
         verify(customerService).deleteCustomerById(uuidArgumentCaptor.capture());
 
         assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+    }
+
+    @Test
+    void testPatchCustomer() throws Exception {
+        Customer customer = customerServiceImpl.getAllCustomers().get(0);
+
+        HashMap<String, Object> customerMap = new HashMap<>();
+        customerMap.put("name", "New Name");
+
+        mockMvc.perform(patch("/api/v1/customer/" + customer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerMap)))
+                .andExpect(status().isNoContent());
+
+        verify(customerService).patchCustomerById(any(UUID.class), any(Customer.class));
+
+        verify(customerService).patchCustomerById(uuidArgumentCaptor.capture(), customerCaptor.capture());
+
+        assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+        assertThat(customerMap.get("name")).isEqualTo(customerCaptor.getValue().getName());
     }
 }
 
