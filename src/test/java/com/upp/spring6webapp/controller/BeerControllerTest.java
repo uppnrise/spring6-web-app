@@ -1,6 +1,5 @@
 package com.upp.spring6webapp.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upp.spring6webapp.model.Beer;
 import com.upp.spring6webapp.service.BeerService;
@@ -75,8 +74,8 @@ class BeerControllerTest {
 
         mockMvc.perform(post("/api/v1/beer")
                         .content(objectMapper.writeValueAsString(beer))
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
 
