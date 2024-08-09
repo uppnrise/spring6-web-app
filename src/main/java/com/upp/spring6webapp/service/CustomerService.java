@@ -1,21 +1,21 @@
 package com.upp.spring6webapp.service;
 
-import com.upp.spring6webapp.model.Customer;
+import com.upp.spring6webapp.model.CustomerDTO;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CustomerService {
 
-    Customer getCustomerById(UUID id);
+    CustomerDTO getCustomerById(UUID id);
 
-    List<Customer> getAllCustomers();
+    List<CustomerDTO> getAllCustomers();
 
-    Customer createCustomer(Customer customer);
+    CustomerDTO createCustomer(CustomerDTO customerDTO);
 
-    Customer updateCustomerById(UUID customerId, Customer customer);
+    CustomerDTO updateCustomerById(UUID customerId, CustomerDTO customerDTO);
 
     void deleteCustomerById(UUID customerId);
 
-    void patchCustomerById(UUID customerId, Customer customer);
+    void patchCustomerById(UUID customerId, CustomerDTO customerDTO);
 }

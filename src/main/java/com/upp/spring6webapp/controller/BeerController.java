@@ -1,6 +1,6 @@
 package com.upp.spring6webapp.controller;
 
-import com.upp.spring6webapp.model.Beer;
+import com.upp.spring6webapp.model.BeerDTO;
 import com.upp.spring6webapp.service.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +22,12 @@ public class BeerController {
     private final BeerService beerService;
 
     @GetMapping(API_V1_BEER_PATH)
-    public List<Beer> listBeers() {
+    public List<BeerDTO> listBeers() {
         return beerService.listBeers();
     }
 
     @GetMapping(API_V1_BEER_PATH_ID)
-    public Beer getBeerById(@PathVariable("beerId") UUID beerId) {
+    public BeerDTO getBeerById(@PathVariable("beerId") UUID beerId) {
 
         log.debug("Get Beer by Id - in controller");
 
@@ -35,8 +35,8 @@ public class BeerController {
     }
 
     @PostMapping(API_V1_BEER_PATH)
-    public ResponseEntity<Beer> createBeer(@RequestBody Beer beer) {
-        Beer saved = beerService.saveNewBeer(beer);
+    public ResponseEntity<BeerDTO> createBeer(@RequestBody BeerDTO beerDTO) {
+        BeerDTO saved = beerService.saveNewBeer(beerDTO);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Location", API_V1_BEER_PATH + "/" + saved.getId());
@@ -45,23 +45,23 @@ public class BeerController {
     }
 
     @PutMapping(API_V1_BEER_PATH_ID)
-    public ResponseEntity<Beer> updateById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer) {
+    public ResponseEntity<BeerDTO> updateById(@PathVariable("beerId") UUID beerId, @RequestBody BeerDTO beerDTO) {
 
-        beerService.updateBeerById(beerId, beer);
+        beerService.updateBeerById(beerId, beerDTO);
 
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(API_V1_BEER_PATH_ID)
-    public ResponseEntity<Beer> deleteById(@PathVariable("beerId") UUID beerId) {
+    public ResponseEntity<BeerDTO> deleteById(@PathVariable("beerId") UUID beerId) {
         beerService.deleteBeerById(beerId);
 
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping(API_V1_BEER_PATH_ID)
-    public ResponseEntity<Beer> patchById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer) {
-        beerService.patchBeerById(beerId, beer);
+    public ResponseEntity<BeerDTO> patchById(@PathVariable("beerId") UUID beerId, @RequestBody BeerDTO beerDTO) {
+        beerService.patchBeerById(beerId, beerDTO);
 
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
