@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.upp.spring6webapp.controller.CustomerController.API_V1_CUSTOMER_PATH;
@@ -71,7 +72,7 @@ public class CustomerControllerTest {
     @Test
     void testGetCustomerById() throws Exception {
         CustomerDTO customerDTO = customerServiceImpl.getAllCustomers().get(0);
-        given(customerService.getCustomerById(any(UUID.class))).willReturn(customerDTO);
+        given(customerService.getCustomerById(any(UUID.class))).willReturn(Optional.of(customerDTO));
 
         mockMvc.perform(get(API_V1_CUSTOMER_PATH_ID, UUID.randomUUID()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
