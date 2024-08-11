@@ -14,35 +14,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final Map<UUID, CustomerDTO> customerMap;
 
     public CustomerServiceImpl() {
-        CustomerDTO customerDTO1 = CustomerDTO.builder()
-                .id(UUID.randomUUID())
-                .name("Customer 1")
-                .version(1)
-                .createdDate(LocalDateTime.now())
-                .updatedDate(LocalDateTime.now())
-                .build();
-
-        CustomerDTO customerDTO2 = CustomerDTO.builder()
-                .id(UUID.randomUUID())
-                .name("Customer 2")
-                .version(1)
-                .createdDate(LocalDateTime.now())
-                .updatedDate(LocalDateTime.now())
-                .build();
-
-        CustomerDTO customerDTO3 = CustomerDTO.builder()
-                .id(UUID.randomUUID())
-                .name("Customer 3")
-                .version(1)
-                .createdDate(LocalDateTime.now())
-                .updatedDate(LocalDateTime.now())
-                .build();
-
         customerMap = new HashMap<>();
-
-        customerMap.put(customerDTO1.getId(), customerDTO1);
-        customerMap.put(customerDTO2.getId(), customerDTO2);
-        customerMap.put(customerDTO3.getId(), customerDTO3);
     }
 
     @Override
