@@ -93,4 +93,10 @@ class CustomerControllerIT {
         Customer updatedCustomer = customerRepository.findById(customer.getId()).get();
         assertThat(updatedCustomer.getName()).isEqualTo(name);
     }
+
+    @Test
+    void testUpdateNotFound() {
+        assertThrows(NotFoundException.class,
+                () -> customerController.updateById(UUID.randomUUID(), CustomerDTO.builder().build()));
+    }
 }
