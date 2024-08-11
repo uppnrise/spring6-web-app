@@ -44,9 +44,9 @@ public class CustomerController {
 
     @PutMapping(API_V1_CUSTOMER_PATH_ID)
     public ResponseEntity<CustomerDTO> updateById(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDTO customerDTO) {
-        CustomerDTO updatedCustomerDTO = customerService.updateCustomerById(customerId, customerDTO);
+        customerService.updateCustomerById(customerId, customerDTO);
 
-        return updatedCustomerDTO == null ? new ResponseEntity<>(updatedCustomerDTO, HttpStatus.NO_CONTENT) : new ResponseEntity<>(updatedCustomerDTO, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(API_V1_CUSTOMER_PATH_ID)

@@ -14,7 +14,7 @@ public interface CustomerService {
 
     CustomerDTO createCustomer(CustomerDTO customerDTO);
 
-    CustomerDTO updateCustomerById(UUID customerId, CustomerDTO customerDTO);
+    void updateCustomerById(UUID customerId, CustomerDTO customerDTO);
 
     void deleteCustomerById(UUID customerId);
 

@@ -1,11 +1,13 @@
 package com.upp.spring6webapp.controller;
 
 import com.upp.spring6webapp.entities.Customer;
+import com.upp.spring6webapp.mappers.CustomerMapper;
 import com.upp.spring6webapp.model.CustomerDTO;
 import com.upp.spring6webapp.repositories.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,9 @@ class CustomerControllerIT {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    CustomerMapper customerMapper;
 
     @Test
     void testListAllCustomers() {
@@ -69,6 +74,23 @@ class CustomerControllerIT {
         Customer customer = customerRepository.findById(savedUUID).get();
 
         assertThat(customer).isNotNull();
+    }
 
+    @Test
+    void testUpdateExistingCustomer() {
+        Customer customer = customerRepository.findAll().get(0);
+        CustomerDTO customerDTO = customerMapper.customerToCustomerDto(customer);
+
+        customerDTO.setId(null);
+        customerDTO.setVersion(null);
+        final String name = "UPDATED!";
+        customerDTO.setName(name);
+
+        ResponseEntity<CustomerDTO> responseEntity = customerController.updateById(customer.getId(), customerDTO);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        Customer updatedCustomer = customerRepository.findById(customer.getId()).get();
+        assertThat(updatedCustomer.getName()).isEqualTo(name);
     }
 }

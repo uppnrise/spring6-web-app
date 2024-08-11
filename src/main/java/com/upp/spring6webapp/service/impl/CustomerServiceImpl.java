@@ -43,14 +43,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO updateCustomerById(UUID customerId, CustomerDTO customerDTO) {
+    public void updateCustomerById(UUID customerId, CustomerDTO customerDTO) {
         CustomerDTO fetchedCustomerDTO = customerMap.get(customerId);
 
         if (fetchedCustomerDTO != null) {
             fetchedCustomerDTO.setName(customerDTO.getName());
             fetchedCustomerDTO.setUpdatedDate(LocalDateTime.now());
         }
-        return fetchedCustomerDTO;
     }
 
     @Override
