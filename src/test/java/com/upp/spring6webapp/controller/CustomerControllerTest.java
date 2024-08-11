@@ -100,6 +100,8 @@ public class CustomerControllerTest {
     void testUpdateCustomer() throws Exception {
         CustomerDTO customerDTO = customerServiceImpl.getAllCustomers().get(0);
 
+        given(customerService.updateCustomerById(any(), any())).willReturn(Optional.of(customerDTO));
+
         mockMvc.perform(put(API_V1_CUSTOMER_PATH_ID, customerDTO.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
