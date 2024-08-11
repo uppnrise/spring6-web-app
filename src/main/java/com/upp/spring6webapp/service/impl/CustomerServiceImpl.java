@@ -14,7 +14,35 @@ public class CustomerServiceImpl implements CustomerService {
     private final Map<UUID, CustomerDTO> customerMap;
 
     public CustomerServiceImpl() {
+        CustomerDTO customer1 = CustomerDTO.builder()
+                .id(UUID.randomUUID())
+                .name("Customer 1")
+                .version(1)
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
+                .build();
+
+        CustomerDTO customer2 = CustomerDTO.builder()
+                .id(UUID.randomUUID())
+                .name("Customer 2")
+                .version(1)
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
+                .build();
+
+        CustomerDTO customer3 = CustomerDTO.builder()
+                .id(UUID.randomUUID())
+                .name("Customer 3")
+                .version(1)
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
+                .build();
+
         customerMap = new HashMap<>();
+
+        customerMap.put(customer1.getId(), customer1);
+        customerMap.put(customer2.getId(), customer2);
+        customerMap.put(customer3.getId(), customer3);
     }
 
     @Override
@@ -43,13 +71,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateCustomerById(UUID customerId, CustomerDTO customerDTO) {
+    public Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customerDTO) {
         CustomerDTO fetchedCustomerDTO = customerMap.get(customerId);
 
         if (fetchedCustomerDTO != null) {
             fetchedCustomerDTO.setName(customerDTO.getName());
             fetchedCustomerDTO.setUpdatedDate(LocalDateTime.now());
         }
+
+        return Optional.ofNullable(fetchedCustomerDTO);
     }
 
     @Override
