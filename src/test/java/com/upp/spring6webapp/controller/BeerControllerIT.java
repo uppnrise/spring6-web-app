@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class BeerControllerIT {
@@ -76,6 +77,8 @@ class BeerControllerIT {
         assertThat(beer).isNotNull();
     }
 
+    @Rollback
+    @Transactional
     @Test
     void testUpdateExistingBeer() {
         Beer beer = beerRepository.findAll().get(0);
@@ -98,5 +101,23 @@ class BeerControllerIT {
     void testUpdateNotFound() {
         assertThrows(NotFoundException.class,
                 () -> beerController.updateById(UUID.randomUUID(), BeerDTO.builder().build()));
+    }
+
+    @Rollback
+    @Transactional
+    @Test
+    void testDeleteByIdFound() {
+        Beer beer = beerRepository.findAll().get(0);
+
+        ResponseEntity<BeerDTO> responseEntity = beerController.deleteById(beer.getId());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        assertTrue(beerRepository.findById(beer.getId()).isEmpty());
+    }
+
+    @Test
+    void testDeleteByIdNotFound() {
+        assertThrows(NotFoundException.class,
+                () -> beerController.deleteById(UUID.randomUUID()));
     }
 }
