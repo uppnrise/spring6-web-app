@@ -6,6 +6,7 @@ import com.upp.spring6webapp.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,5 +53,21 @@ class BeerControllerIT {
     @Test
     void testBeerIdNotFound() {
         assertThrows(NotFoundException.class, () -> beerController.getBeerById(UUID.randomUUID()));
+    }
+
+    @Rollback
+    @Transactional
+    @Test
+    void testNewBeerTest() {
+        BeerDTO newBeerDTO = BeerDTO.builder()
+                .beerName("New Beer")
+                .build();
+
+        ResponseEntity<BeerDTO> responseEntity = beerController.createBeer(newBeerDTO);
+        String locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/")[4];
+        UUID savedUUID = UUID.fromString(locationUUID);
+        Beer beer = beerRepository.findById(savedUUID).get();
+
+        assertThat(beer).isNotNull();
     }
 }
