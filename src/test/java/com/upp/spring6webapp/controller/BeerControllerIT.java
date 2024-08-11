@@ -1,5 +1,6 @@
 package com.upp.spring6webapp.controller;
 
+import com.upp.spring6webapp.entities.Beer;
 import com.upp.spring6webapp.model.BeerDTO;
 import com.upp.spring6webapp.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
@@ -9,8 +10,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class BeerControllerIT {
@@ -35,5 +38,19 @@ class BeerControllerIT {
 
         List<BeerDTO> beerDTOS = beerController.listBeers();
         assertThat(beerDTOS.size()).isEqualTo(0);
+    }
+
+    @Test
+    void testGetById() {
+        Beer beer = beerRepository.findAll().get(0);
+        BeerDTO beerDTO = beerController.getBeerById(beer.getId());
+
+        assertThat(beerDTO).isNotNull();
+        assertThat(beerDTO.getId()).isEqualTo(beer.getId());
+    }
+
+    @Test
+    void testBeerIdNotFound() {
+        assertThrows(NotFoundException.class, () -> beerController.getBeerById(UUID.randomUUID()));
     }
 }
