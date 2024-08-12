@@ -1,6 +1,5 @@
 package com.upp.spring6webapp.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upp.spring6webapp.model.BeerDTO;
 import com.upp.spring6webapp.service.BeerService;
@@ -15,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -107,11 +107,15 @@ class BeerControllerTest {
 
         given(beerService.createBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.getAllBeers().get(1));
 
-        mockMvc.perform(post(API_V1_BEER_PATH)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(beerDTO)))
-                .andExpect(status().isBadRequest());
+        MvcResult mvcResult = mockMvc.perform(post(API_V1_BEER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(6)))
+                .andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -127,6 +131,21 @@ class BeerControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(beerService).updateBeerById(any(UUID.class), any(BeerDTO.class));
+    }
+
+    @Test
+    void testUpdateBeerBlankName() throws Exception {
+        BeerDTO beerDTO = beerServiceImpl.getAllBeers().get(0);
+        beerDTO.setBeerName("");
+
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beerDTO));
+
+        mockMvc.perform(put(API_V1_BEER_PATH_ID, beerDTO.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(1)));
     }
 
     @Test
