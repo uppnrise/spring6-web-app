@@ -22,7 +22,7 @@ public class BeerServiceJPA implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public List<BeerDTO> listBeers() {
+    public List<BeerDTO> getAllBeers() {
         return beerRepository.findAll().stream()
                 .map(beerMapper::beerToBeerDto)
                 .collect(Collectors.toList());
@@ -35,7 +35,7 @@ public class BeerServiceJPA implements BeerService {
     }
 
     @Override
-    public BeerDTO saveNewBeer(BeerDTO beerDTO) {
+    public BeerDTO createBeer(BeerDTO beerDTO) {
         return beerMapper.beerToBeerDto(beerRepository.save(beerMapper.beerDtoToBeer(beerDTO)));
     }
 

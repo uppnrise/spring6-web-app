@@ -23,7 +23,7 @@ public class BeerController {
 
     @GetMapping(API_V1_BEER_PATH)
     public List<BeerDTO> listBeers() {
-        return beerService.listBeers();
+        return beerService.getAllBeers();
     }
 
     @GetMapping(API_V1_BEER_PATH_ID)
@@ -33,7 +33,7 @@ public class BeerController {
 
     @PostMapping(API_V1_BEER_PATH)
     public ResponseEntity<BeerDTO> createBeer(@RequestBody BeerDTO beerDTO) {
-        BeerDTO saved = beerService.saveNewBeer(beerDTO);
+        BeerDTO saved = beerService.createBeer(beerDTO);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Location", API_V1_BEER_PATH + "/" + saved.getId());
