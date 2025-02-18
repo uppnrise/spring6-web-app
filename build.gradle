@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.mysql:mysql-connector-j:9.0.0' // 'mysql-connector-java' is renamed to 'mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     runtimeOnly 'com.h2database:h2'
+    implementation 'org.flywaydb:flyway-mysql'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     compileOnly 'org.projectlombok:lombok'
 
