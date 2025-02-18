@@ -24,6 +24,9 @@ public class Customer {
     @JdbcTypeCode(SqlTypes.CHAR)
     private UUID id;
 
+    @Column
+    private String email;
+
     @Version
     private Integer version;
 
