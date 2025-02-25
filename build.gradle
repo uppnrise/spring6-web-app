@@ -37,14 +37,16 @@ dependencies {
     implementation 'com.mysql:mysql-connector-j:9.0.0' // 'mysql-connector-java' is renamed to 'mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
     implementation 'org.flywaydb:flyway-mysql'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    implementation 'com.opencsv:opencsv:5.10'
+
     compileOnly 'org.projectlombok:lombok'
 
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
-    runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'org.testcontainers:junit-jupiter'
