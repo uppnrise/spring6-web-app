@@ -20,16 +20,12 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.upp.spring6webapp.controller.BeerController.API_V1_BEER_PATH_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -76,7 +72,7 @@ class BeerControllerIT {
     @Test
     void testListBeers() {
         List<BeerDTO> beerDTOS = beerController.listBeers();
-        assertThat(beerDTOS.size()).isEqualTo(3);
+        assertThat(beerDTOS.size()).isEqualTo(2413);
     }
 
     @Rollback
